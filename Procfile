@@ -1,1 +1,1 @@
-web: gunicorn credit_score_api.wsgi --log-file -
+web: gunicorn credit_score.wsgi --log-file -
