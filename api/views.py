@@ -9,14 +9,11 @@ import io
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 
-# Get the absolute path to the Django project root
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# Load the trained model and preprocessor
 model = joblib.load(os.path.join(BASE_DIR, 'best_svm_model.pkl'))
 preprocessor = joblib.load(os.path.join(BASE_DIR, 'preprocessor.pkl'))
 
-# Load feature names used during training
 with open(os.path.join(BASE_DIR, 'feature_names.pkl'), 'rb') as f:
     feature_names = joblib.load(f)
 
@@ -40,9 +37,7 @@ class PredictCreditScore(APIView):
         file_obj = request.FILES['file']
         df = pd.read_csv(io.StringIO(file_obj.read().decode('utf-8')))
         
-        # Reorder columns to match the training data
         df = df[feature_names]
-        print(df)
         
         predictions = model.predict(df)
         
